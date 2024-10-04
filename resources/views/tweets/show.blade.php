@@ -18,6 +18,7 @@
             <p>作成日時: {{ $tweet->created_at->format('Y-m-d H:i') }}</p>
             <p>更新日時: {{ $tweet->updated_at->format('Y-m-d H:i') }}</p>
           </div>
+
           @if (auth()->id() == $tweet->user_id)
           <div class="flex mt-4">
             <a href="{{ route('tweets.edit', $tweet) }}" class="text-blue-500 hover:text-blue-700 mr-2">編集</a>
@@ -28,6 +29,7 @@
             </form>
           </div>
           @endif
+
           <div class="flex mt-4">
             @if ($tweet->liked->contains(auth()->id()))
             <form action="{{ route('tweets.dislike', $tweet) }}" method="POST">
@@ -42,6 +44,23 @@
             </form>
             @endif
           </div>
+
+          <div class="flex mt-4">
+            @if ($tweet->baded->contains(auth()->id()))
+            <form action="{{ route('tweets.disbad', $tweet) }}" method="POST">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="text-red-500 hover:text-red-700">disbad {{$tweet->baded->count()}}</button>
+            </form>
+            @else
+            <form action="{{ route('tweets.bad', $tweet) }}" method="POST">
+              @csrf
+              <button type="submit" class="text-blue-500 hover:text-blue-700">bad {{$tweet->baded->count()}}</button>
+            </form>
+            @endif
+          </div>
+        
+
           <div class="mt-4">
             <p class="text-gray-600 dark:text-gray-400 ml-4">comment {{ $tweet->comments->count() }}</p>
             <a href="{{ route('tweets.comments.create', $tweet) }}" class="text-blue-500 hover:text-blue-700 mr-2">コメントする</a>

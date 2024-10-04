@@ -33,6 +33,22 @@
               </form>
               @endif
             </div>
+
+            <div class="flex">
+              @if ($tweet->baded->contains(auth()->id()))
+              <form action="{{ route('tweets.disbad', $tweet) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="text-red-500 hover:text-red-700">disbad {{$tweet->baded->count()}}</button>
+              </form>
+              @else
+              <form action="{{ route('tweets.bad', $tweet) }}" method="POST">
+                @csrf
+                <button type="submit" class="text-blue-500 hover:text-blue-700">bad {{$tweet->baded->count()}}</button>
+              </form>
+              @endif
+            </div>
+
           </div>
           @endforeach
         </div>
